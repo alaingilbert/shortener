@@ -6,6 +6,7 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -58,5 +59,9 @@ func main() {
 	m.Get("/", mainHandler)
 	m.Get("/:id", redirectHandler)
 	m.Get("/new/(?P<url>.*)", createHandler)
-	m.RunOnAddr(":3001")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3001"
+	}
+	m.RunOnAddr(fmt.Sprintf(":%s", port))
 }
